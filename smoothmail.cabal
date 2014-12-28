@@ -6,7 +6,7 @@ version:             0.1.0.0
 synopsis:            An attempt to provide a smooth mail DSL
 -- description:         
 homepage:            https://github.com/blackheaven/smoothmail
-license:             ISC
+license:             OtherLicense
 license-file:        LICENSE
 author:              Gautier DI FOLCO
 maintainer:          b@almostcorrect.eu
