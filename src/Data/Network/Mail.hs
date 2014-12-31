@@ -3,5 +3,5 @@ module Data.Network.Mail
   , UID
   ) where
 
-data Mail
-data UID
+data Mail = Mail { getID :: UID }
+newtype UID = UID { getUID :: Integer }
