@@ -1,7 +1,7 @@
-module Data.Network.ImapSpec (main, spec) where
+module Network.Mail.ImapSpec (main, spec) where
 
 import Test.Hspec
-import Data.Network.Imap
+import Network.Mail.Imap
 
 main :: IO ()
 main = hspec spec

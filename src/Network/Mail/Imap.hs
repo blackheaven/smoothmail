@@ -1,11 +1,11 @@
 {-# LANGUAGE KindSignatures #-}
 {-# LANGUAGE GADTs #-}
 
-module Data.Network.Imap
+module Network.Mail.Imap
   ( Imap
   ) where
 
-import Data.Network.Mail
+import Network.Mail
 
 data Imap :: * -> * where
     Select :: UID -> Imap Mail
