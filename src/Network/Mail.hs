@@ -4,6 +4,6 @@ module Network.Mail
   , Header
   ) where
 
-data Mail = Mail { getHeader :: Header }
-data Header = Header { getUID :: UID }
+data Mail = Mail { getHeader :: Header } -- Body + Header
+data Header = Header { getUID :: UID } -- Envelope
 newtype UID = UID { extractUID :: Integer }
