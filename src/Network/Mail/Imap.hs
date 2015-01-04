@@ -44,43 +44,43 @@ data StatusDataItemName = Messages
                         | Uidvalidity
                         | Unseen
 
-data MailSearch = All
-                | Answered
-                | Bcc String
-                | Before Date
-                | Body String
-                | Cc String
-                | Deleted
-                | Draft
-                | Flagged
-                | From String
-                | Header String String
-                | Keyword Flag
-                | Larger Size
-                | New
-                | Not MailSearch
-                | Old
-                | On Date
-                | Or MailSearch MailSearch
-                | Recent
-                | Seen
-                | Sentbefore Date
-                | Senton Date
-                | Sentsince Date
-                | Since Date
-                | Smaller Size
-                | Subject String
-                | Text String
-                | To String
-                | Uid [UID]
-                | Unanswered
-                | Undeleted
-                | Undraft
-                | Unflagged
-                | Unkeyword Flag
-                | Unseen
+data MailSearch = MSAll
+                | MSAnswered
+                | MSBcc String
+                | MSBefore Date
+                | MSBody String
+                | MSCc String
+                | MSDeleted
+                | MSDraft
+                | MSFlagged
+                | MSFrom String
+                | MSHeader String String
+                | MSKeyword Flag
+                | MSLarger Size
+                | MSNew
+                | MSNot MailSearch
+                | MSOld
+                | MSOn Date
+                | MSOr MailSearch MailSearch
+                | MSRecent
+                | MSSeen
+                | MSSentbefore Date
+                | MSSenton Date
+                | MSSentsince Date
+                | MSSince Date
+                | MSSmaller Size
+                | MSSubject String
+                | MSText String
+                | MSTo String
+                | MSUid [UID]
+                | MSUnanswered
+                | MSUndeleted
+                | MSUndraft
+                | MSUnflagged
+                | MSUnkeyword Flag
+                | MSUnseen
 
-data Flag
+data Flag = Flag -- TODO
 
 type Flags = [Flag]
 
@@ -102,4 +102,7 @@ data FetchQuery :: * -> * where
     FQSize   :: FetchQuery Size
     FQHeader :: FetchQuery Header
     FQMail   :: FetchQuery Mail
+
+type Size = Integer
+data Date = Data -- TODO
 
