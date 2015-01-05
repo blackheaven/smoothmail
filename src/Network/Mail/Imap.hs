@@ -3,6 +3,17 @@
 
 module Network.Mail.Imap
   ( Imap
+  , DirectoryName
+  , DirectoryDescription
+  , DirectoryPattern
+  , DirectorySearch
+  , StatusDataItemName
+  , MailSearch
+  , Flag
+  , Flags
+  , FlagUpdate
+  , FetchQuery
+  , Size
   ) where
 
 import Network.Mail
