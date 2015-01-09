@@ -17,6 +17,7 @@ module Network.Mail.Imap.Types
   ) where
 
 import Network.Mail
+import Control.Applicative
 
 data Imap :: * -> * where
     Select :: DirectoryName -> Imap (Maybe DirectoryDescription)
@@ -39,6 +40,17 @@ data Imap :: * -> * where
     Copy :: [UID] -> DirectoryName -> Imap Bool -- S
     -- UID -- S TODO
 
+instance Functor Imap where
+    fmap f v = case v of
+                 _ -> undefined
+
+instance Applicative Imap where
+    pure _ = undefined
+    _ <*> _ = undefined
+
+instance Monad Imap where
+  return _ = undefined
+  _ >>= _ = undefined
 
 type DirectoryName = String
 data DirectoryDescription = DirectoryDescription
