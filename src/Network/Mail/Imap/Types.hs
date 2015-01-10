@@ -1,5 +1,6 @@
 {-# LANGUAGE KindSignatures #-}
 {-# LANGUAGE GADTs #-}
+{-# LANGUAGE ExistentialQuantification #-}
 
 module Network.Mail.Imap.Types
   ( Imap
@@ -17,40 +18,51 @@ module Network.Mail.Imap.Types
   ) where
 
 import Network.Mail
-import Control.Applicative
+import Control.Monad.Free
 
-data Imap :: * -> * where
-    Select :: DirectoryName -> Imap (Maybe DirectoryDescription)
-    Examine :: DirectoryName -> Imap (Maybe DirectoryDescription)
-    Noop :: Imap DirectoryDescription
-    Create :: DirectoryName -> Imap Bool
-    Delete :: DirectoryName -> Imap Bool
-    Rename :: DirectoryName -> Imap Bool
-    Subscribe :: DirectoryName -> Imap Bool
-    Unsubscribe :: DirectoryName -> Imap Bool
-    List :: DirectorySearch -> Imap (Maybe [DirectoryName])
-    Lsub :: DirectorySearch -> Imap (Maybe [DirectoryName])
-    Status :: DirectoryName -> [StatusDataItemName] -> Imap (Maybe DirectoryDescription)
-    Append :: Maybe Flags -> Maybe Date -> Mail -> Imap Bool
-    Check :: Imap () -- Selected state only
-    Expunge :: Imap Bool -- S
-    Search :: MailSearch -> Imap (Maybe [UID]) -- S
-    Fetch :: [UID] -> FetchQuery a -> Imap (Maybe [a]) -- S
-    Store :: [UID] -> FlagUpdate -> Imap Bool -- S
-    Copy :: [UID] -> DirectoryName -> Imap Bool -- S
+data ImapF next =
+      Select DirectoryName                      (Maybe DirectoryDescription -> next)
+    | Examine DirectoryName                     (Maybe DirectoryDescription -> next)
+    | Noop                                      (DirectoryDescription -> next)
+    | Create DirectoryName                      (Bool -> next)
+    | Delete DirectoryName                      (Bool -> next)
+    | Rename DirectoryName                      (Bool -> next)
+    | Subscribe DirectoryName                   (Bool -> next)
+    | Unsubscribe DirectoryName                 (Bool -> next)
+    | List DirectorySearch                      (Maybe [DirectoryName] -> next)
+    | Lsub DirectorySearch                      (Maybe [DirectoryName] -> next)
+    | Status DirectoryName [StatusDataItemName] (Maybe DirectoryDescription -> next)
+    | Append (Maybe Flags) (Maybe Date) Mail    (Bool -> next)
+    | Check                                     next -- Selected state only
+    | Expunge                                   (Bool -> next) -- S
+    | Search MailSearch                         (Maybe [UID] -> next) -- S
+    | forall a. Fetch [UID] (FetchQuery a)      (Maybe [a] -> next) -- S
+    | Store [UID] FlagUpdate                    (Bool -> next) -- S
+    | Copy [UID] DirectoryName                  (Bool -> next) -- S
     -- UID -- S TODO
 
-instance Functor Imap where
+instance Functor ImapF where
     fmap f v = case v of
-                 _ -> undefined
+                Select a n      -> Select a      (f . n)
+                Examine a n     -> Examine a     (f . n)
+                Noop n          -> Noop          (f . n)
+                Create a n      -> Create a      (f . n)
+                Delete a n      -> Delete a      (f . n)
+                Rename a n      -> Rename a      (f . n)
+                Subscribe a n   -> Subscribe a   (f . n)
+                Unsubscribe a n -> Unsubscribe a (f . n)
+                List a n        -> List a        (f . n)
+                Lsub a n        -> Lsub a        (f . n)
+                Status a b n    -> Status a b    (f . n)
+                Append a b c n  -> Append a b c  (f . n)
+                Check n         -> Check         (f n)
+                Expunge n       -> Expunge       (f . n)
+                Search a n      -> Search a      (f . n)
+                Fetch a b n     -> Fetch a b     (f . n)
+                Store a b n     -> Store a b     (f . n)
+                Copy a b n      -> Copy a b      (f . n)
 
-instance Applicative Imap where
-    pure _ = undefined
-    _ <*> _ = undefined
-
-instance Monad Imap where
-  return _ = undefined
-  _ >>= _ = undefined
+type Imap = Free ImapF
 
 type DirectoryName = String
 data DirectoryDescription = DirectoryDescription

@@ -22,6 +22,7 @@ library
       Haskell2010
   build-depends:
       base >=4.7 && <4.8
+    , free == 4.10.*
   exposed-modules:
       Network.Mail
     , Network.Mail.Imap
@@ -33,6 +34,8 @@ test-suite spec
       -Wall
   hs-source-dirs:
       test
+  default-language:
+      Haskell2010
   main-is:
       Spec.hs
   build-depends:
