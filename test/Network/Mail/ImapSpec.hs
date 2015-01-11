@@ -13,7 +13,7 @@ spec :: Spec
 spec = do
   describe "DSL usecases" $ do
     it "Print INBOX" $ runStubTest $ do
-      messages <- fetchAll
+      messages <- searchAll
       return [    show (getUID m)
         ++ " " ++ show (getDate m)
         ++ " " ++ show (getSender m)
