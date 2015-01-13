@@ -8,7 +8,7 @@ runStubTest _ =  undefined
 
 prettyPrintCurrentDirectory :: Imap [String]
 prettyPrintCurrentDirectory = do
-    messages <- searchAll
+    messages <- searchAll >>= fetchAll
     return [    show (getUID m)
            ++ " " ++ show (getDate m)
            ++ " " ++ show (getSender m)

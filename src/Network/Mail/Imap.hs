@@ -4,6 +4,7 @@
 module Network.Mail.Imap
   ( Imap
   , searchAll
+  , fetchAll
   , getUID
   , getDate
   , getSender
@@ -13,8 +14,11 @@ module Network.Mail.Imap
 import Network.Mail
 import Network.Mail.Imap.Types
 
-searchAll :: Imap [Mail]
+searchAll :: Imap [UID]
 searchAll = undefined
+
+fetchAll :: [UID] -> Imap [Mail]
+fetchAll _ = undefined
 
 getUID :: Mail -> String
 getUID _ = undefined
