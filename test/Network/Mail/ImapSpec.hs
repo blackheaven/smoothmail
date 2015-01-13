@@ -2,9 +2,7 @@ module Network.Mail.ImapSpec (main, spec) where
 
 import Test.Hspec
 import Network.Mail.Imap
-
-runStubTest :: Imap a -> a
-runStubTest _ =  undefined
+import Network.Mail.ImapStub
 
 prettyPrintCurrentDirectory :: Imap [String]
 prettyPrintCurrentDirectory = do
