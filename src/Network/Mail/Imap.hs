@@ -13,12 +13,13 @@ module Network.Mail.Imap
 
 import Network.Mail
 import Network.Mail.Imap.Types
+import Control.Monad.Free (liftF)
 
 searchAll :: Imap [UID]
-searchAll = undefined
+searchAll = liftF $ Search undefined undefined
 
 fetchAll :: [UID] -> Imap [Mail]
-fetchAll _ = undefined
+fetchAll uids = liftF $ Fetch uids undefined undefined
 
 getUID :: Mail -> String
 getUID _ = undefined

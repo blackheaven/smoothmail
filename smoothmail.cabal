@@ -26,6 +26,7 @@ library
   exposed-modules:
       Network.Mail
     , Network.Mail.Imap
+    , Network.Mail.Imap.Types
 
 test-suite spec
   type:
@@ -42,3 +43,4 @@ test-suite spec
       base >=4.7 && <4.8
     , smoothmail
     , hspec   == 2.*
+    , free == 4.10.*

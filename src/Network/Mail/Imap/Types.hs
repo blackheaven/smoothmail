@@ -4,6 +4,7 @@
 
 module Network.Mail.Imap.Types
   ( Imap
+  , ImapF(..)
   , DirectoryName
   , DirectoryDescription
   , DirectoryPattern

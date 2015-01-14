@@ -14,6 +14,16 @@ prettyPrintCurrentDirectory = do
            | m <- messages
            ]
 
+prettyPrintFirstMailOfCurrentDirectory :: Imap [String]
+prettyPrintFirstMailOfCurrentDirectory = do
+    messages <- searchAll >>= fetchAll . take 1
+    return [    show (getUID m)
+           ++ " " ++ show (getDate m)
+           ++ " " ++ show (getSender m)
+           ++ " " ++ show (getSubject m)
+           | m <- messages
+           ]
+
 main :: IO ()
 main = hspec spec
 
@@ -24,4 +34,8 @@ spec = do
       runStubTest prettyPrintCurrentDirectory `shouldBe` [
                                                            "1 2015-01-01 10:10 S1 T1"
                                                          , "2 2015-02-03 21:12 S1 T2"
+                                                         ]
+    it "Print INBOX" $ do
+      runStubTest prettyPrintFirstMailOfCurrentDirectory `shouldBe` [
+                                                           "1 2015-01-01 10:10 S1 T1"
                                                          ]
