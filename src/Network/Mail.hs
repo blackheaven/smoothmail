@@ -1,9 +1,9 @@
 module Network.Mail
   ( Mail
-  , UID
+  , UID(..)
   , Header
   ) where
 
 data Mail = Mail { getHeader :: Header } -- Body + Header
 data Header = Header { getUID :: UID } -- Envelope
-newtype UID = UID { extractUID :: Integer }
+newtype UID = UID { extractUID :: Integer } deriving (Show, Ord, Eq)

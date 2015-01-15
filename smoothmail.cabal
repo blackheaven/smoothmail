@@ -44,3 +44,4 @@ test-suite spec
     , smoothmail
     , hspec   == 2.*
     , free == 4.10.*
+    , containers == 0.5.5.*
