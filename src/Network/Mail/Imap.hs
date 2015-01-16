@@ -5,10 +5,6 @@ module Network.Mail.Imap
   ( Imap
   , searchAll
   , fetchAll
-  , getUID
-  , getDate
-  , getSender
-  , getSubject
   ) where
 
 import Network.Mail
@@ -20,16 +16,3 @@ searchAll = liftF $ Search undefined undefined
 
 fetchAll :: [UID] -> Imap [Mail]
 fetchAll uids = liftF $ Fetch uids undefined undefined
-
-getUID :: Mail -> String
-getUID _ = undefined
-
-getDate :: Mail -> String
-getDate _ = undefined
-
-getSender :: Mail -> String
-getSender _ = undefined
-
-getSubject :: Mail -> String
-getSubject _ = undefined
-
