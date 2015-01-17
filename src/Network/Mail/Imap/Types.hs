@@ -14,7 +14,7 @@ module Network.Mail.Imap.Types
   , Flag
   , Flags
   , FlagUpdate
-  , FetchQuery
+  , FetchQuery(..)
   , Size
   ) where
 

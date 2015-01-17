@@ -1,29 +1,28 @@
 module Network.Mail.ImapSpec (main, spec) where
 
 import Test.Hspec
-import Control.Applicative((<$>))
 import Network.Mail
 import Network.Mail.Imap
 import Network.Mail.ImapStub
 
 prettyPrintCurrentDirectory :: Imap [String]
 prettyPrintCurrentDirectory = do
-    messages <- searchAll >>= fetchAll
+    messages <- searchAll >>= fetchHeader
     return [    show (extractUID $ getUID $ h)
            ++ " " ++ show (getDate h)
            ++ " " ++ show (getSender h)
            ++ " " ++ show (getSubject h)
-           | h <- getHeader <$> messages
+           | h <- messages
            ]
 
 prettyPrintFirstMailOfCurrentDirectory :: Imap [String]
 prettyPrintFirstMailOfCurrentDirectory = do
-    messages <- searchAll >>= fetchAll . take 1
+    messages <- searchAll >>= fetchHeader . take 1
     return [    show (extractUID $ getUID $ h)
            ++ " " ++ show (getDate h)
            ++ " " ++ show (getSender h)
            ++ " " ++ show (getSubject h)
-           | h <- getHeader <$> messages
+           | h <- messages
            ]
 
 main :: IO ()

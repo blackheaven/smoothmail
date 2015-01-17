@@ -1,4 +1,4 @@
-{-# LANGUAGE FlexibleInstances #-}
+{-# LANGUAGE GADTs #-}
 
 module Network.Mail.ImapStub (runStubTest) where
 
@@ -18,6 +18,6 @@ mails = M.fromList $ [
 
 runStubTest :: Imap a -> a
 runStubTest = iter $ \x -> case x of
-                             Search     _ n -> n $ Just $ M.keys mails
-                             Fetch uids _ n -> n $ Just $ mapMaybe (flip M.lookup mails) uids
+                             Search     _ n        -> n $ Just $ M.keys mails
+                             Fetch uids FQHeader n -> n $ Just $ map getHeader $ mapMaybe (flip M.lookup mails) uids
 
