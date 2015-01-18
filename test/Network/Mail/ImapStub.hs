@@ -13,7 +13,7 @@ import qualified Data.Map as M
 
 mails = M.fromList $ [
                         (UID 1, Mail (Header (UID 1) "2015-01-01 10:10" "S1" "T1"))
-                     ,  (UID 2, Mail (Header (UID 1) "2015-01-01 10:10" "S1" "T1"))
+                     ,  (UID 2, Mail (Header (UID 2) "2015-02-03 21:12" "S2" "T2"))
                      ]
 
 runStubTest :: Imap a -> a

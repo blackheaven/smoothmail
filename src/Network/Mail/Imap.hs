@@ -11,8 +11,8 @@ import Network.Mail
 import Network.Mail.Imap.Types
 import Control.Monad.Free (liftF)
 
-searchAll :: Imap [UID]
-searchAll = liftF $ Search undefined undefined
+searchAll :: Imap (Maybe [UID])
+searchAll = liftF $ Search undefined id
 
-fetchHeader :: [UID] -> Imap [Header]
-fetchHeader uids = liftF $ Fetch uids FQHeader undefined
+fetchHeader :: [UID] -> Imap (Maybe [Header])
+fetchHeader uids = liftF $ Fetch uids FQHeader id
