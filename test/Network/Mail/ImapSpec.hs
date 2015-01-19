@@ -6,19 +6,19 @@ import Network.Mail.Imap
 import Network.Mail.ImapStub
 
 prettyPrintCurrentDirectory :: Imap [String]
-prettyPrintCurrentDirectory = do
-    messages <- searchAll >>= maybe (return Nothing) fetchHeader
-    return [    show (extractUID $ getUID $ h)
-           ++ " " ++ getDate h
-           ++ " " ++ getSender h
-           ++ " " ++ getSubject h
-           | h <- maybe [] id messages
-           ]
+prettyPrintCurrentDirectory =
+    getAllMails fetchHeader >>= prettyPrintHeaders
 
 prettyPrintFirstMailOfCurrentDirectory :: Imap [String]
-prettyPrintFirstMailOfCurrentDirectory = do
-    messages <- searchAll >>= maybe (return Nothing) (fetchHeader . take 1)
-    return [         show (extractUID $ getUID $ h)
+prettyPrintFirstMailOfCurrentDirectory =
+    getAllMails (fetchHeader . take 1) >>= prettyPrintHeaders
+
+getAllMails :: ([UID] -> Imap (Maybe a)) -> Imap (Maybe a)
+getAllMails f = searchAll >>= maybe (return Nothing) f
+
+prettyPrintHeaders :: Maybe [Header] -> Imap [String]
+prettyPrintHeaders messages = return
+           [         show (extractUID $ getUID $ h)
            ++ " " ++ getDate h
            ++ " " ++ getSender h
            ++ " " ++ getSubject h
@@ -31,12 +31,13 @@ main = hspec spec
 spec :: Spec
 spec = do
   describe "DSL usecases" $ do
-    it "Print all the INBOX" $ do
-      runStubTest prettyPrintCurrentDirectory `shouldBe` [
-                                                           "1 2015-01-01 10:10 S1 T1"
-                                                         , "2 2015-02-03 21:12 S2 T2"
-                                                         ]
-    it "Print first Mail of the INBOX" $ do
-      runStubTest prettyPrintFirstMailOfCurrentDirectory `shouldBe` [
-                                                           "1 2015-01-01 10:10 S1 T1"
+    describe "Print INBOX" $ do
+      it "Print all mails" $ do
+        runStubTest prettyPrintCurrentDirectory `shouldBe` [
+                                                             "1 2015-01-01 10:10 S1 T1"
+                                                           , "2 2015-02-03 21:12 S2 T2"
+                                                           ]
+      it "Print the first mail" $ do
+        runStubTest prettyPrintFirstMailOfCurrentDirectory `shouldBe` [
+                                                             "1 2015-01-01 10:10 S1 T1"
                                                          ]
