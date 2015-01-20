@@ -18,6 +18,7 @@ mails = M.fromList $ [
 
 runStubTest :: Imap a -> a
 runStubTest = iter $ \x -> case x of
-                             Search     _ n        -> n $ Just $ M.keys mails
+                             Search _            n -> n $ Just $ M.keys mails
                              Fetch uids FQHeader n -> n $ Just $ map getHeader $ mapMaybe (flip M.lookup mails) uids
+                             Select _            n -> n $ Just $ undefined
 

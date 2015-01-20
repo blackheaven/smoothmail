@@ -31,7 +31,7 @@ main = hspec spec
 spec :: Spec
 spec = do
   describe "DSL usecases" $ do
-    describe "Print INBOX" $ do
+    describe "'INBOX' directory" $ do
       it "Print all mails" $ do
         runStubTest prettyPrintCurrentDirectory `shouldBe` [
                                                              "1 2015-01-01 10:10 S1 T1"
@@ -41,3 +41,8 @@ spec = do
         runStubTest prettyPrintFirstMailOfCurrentDirectory `shouldBe` [
                                                              "1 2015-01-01 10:10 S1 T1"
                                                          ]
+    describe "'Personal' directory" $ do
+      it "Print all mails" $ do
+        runStubTest (select "Personal" >> prettyPrintCurrentDirectory) `shouldBe` [
+                                                             "3 2015-04-05 12:34 S2 T1"
+                                                           ]

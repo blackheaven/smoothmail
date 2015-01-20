@@ -5,6 +5,7 @@ module Network.Mail.Imap
   ( Imap
   , searchAll
   , fetchHeader
+  , select
   ) where
 
 import Network.Mail
@@ -16,3 +17,6 @@ searchAll = liftF $ Search undefined id
 
 fetchHeader :: [UID] -> Imap (Maybe [Header])
 fetchHeader uids = liftF $ Fetch uids FQHeader id
+
+select :: DirectoryName -> Imap (Maybe DirectoryDescription)
+select directory = liftF $ Select directory id
