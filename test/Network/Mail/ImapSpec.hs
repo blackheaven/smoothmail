@@ -40,3 +40,7 @@ spec = do
       it "Print all mails" $ do
         runStubTest (select "Personal" >> prettyPrintCurrentDirectory)
         `shouldBe` Just ["3 2015-04-05 12:34 S2 T1"]
+    describe "Unknown directory" $ do
+      it "Print all mails" $ do
+        runStubTest (select "Unknown" >> prettyPrintCurrentDirectory)
+        `shouldBe` Nothing

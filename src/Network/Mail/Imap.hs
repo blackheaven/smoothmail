@@ -20,3 +20,15 @@ fetchHeader uids = liftF $ Fetch uids FQHeader id
 
 select :: DirectoryName -> Imap (Maybe DirectoryDescription)
 select directory = liftF $ Select directory id
+
+
+-- TODO
+-- # All State
+-- * capability
+-- * logout
+-- # Not Authenticated State
+-- * starttls
+-- * authenticate
+-- * login
+-- # Selected State
+-- * close

@@ -24,4 +24,5 @@ runStubTest = flip evalState mails . iterM eval
         eval x = case x of
                    Search _            n -> get >>= n . Just . M.keys
                    Fetch uids FQHeader n -> get >>= \m -> n $ Just $ map getHeader $ mapMaybe (flip M.lookup m) uids
-                   Select _            n -> put mailsPersonal >> n (Just undefined)
+                   Select "Personal"   n -> put mailsPersonal >> n (Just undefined)
+                   Select _            n -> n Nothing
