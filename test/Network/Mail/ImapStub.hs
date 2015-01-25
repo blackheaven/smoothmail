@@ -9,6 +9,7 @@ import Network.Mail.Imap.Types
 import Control.Monad.Free (iterM)
 import Control.Monad.State
 import Data.Maybe (mapMaybe)
+import Data.List (intercalate)
 import qualified Data.Map as M
 
 mails = M.fromList  [ ("", M.fromList [
@@ -26,5 +27,13 @@ runStubTest = flip evalState "" . iterM eval
                    Fetch uids FQHeader n -> get >>= \d -> n $ fmap (\m -> map getHeader $ mapMaybe (flip M.lookup m) uids) (M.lookup d mails)
                    Select p            n -> get >>= \o -> put (reduce $ o ++ "/" ++ p) >> get >>= \d -> n (fmap (const undefined) (M.lookup d mails))
         reduce p = case p of
-                     "/" -> ""
-                     _ -> p
+                    "/" -> ""
+                    _ -> flattenLevels p
+        flattenLevels = intercalate "/" . dropUp . splitOn '/'
+        splitOn s a = case a of
+                       [] -> []
+                       _  -> (\(p, n) -> p:splitOn s (drop 1 n)) (break (== s) a)
+        dropUp s = case s of
+                    []          -> []
+                    (_:"..":xs) -> dropUp xs
+                    (x:xs)      -> x:dropUp xs
