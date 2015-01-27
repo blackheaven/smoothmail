@@ -47,3 +47,11 @@ spec = do
       it "Print all mails" $ do
         runStubTest (select "Unknown" >> prettyPrintCurrentDirectory)
         `shouldBe` Nothing
+    describe "New directory" $ do
+      it "Create a non-existing directory should be true" $ do
+        runStubTest (create "New")
+        `shouldBe` True
+    describe "New directory" $ do
+      it "Create an existing directory should be false" $ do
+        runStubTest (create "Personal")
+        `shouldBe` False

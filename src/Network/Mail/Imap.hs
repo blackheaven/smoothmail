@@ -6,6 +6,7 @@ module Network.Mail.Imap
   , searchAll
   , fetchHeader
   , select
+  , create
   ) where
 
 import Network.Mail
@@ -20,6 +21,9 @@ fetchHeader uids = liftF $ Fetch uids FQHeader id
 
 select :: DirectoryName -> Imap (Maybe DirectoryDescription)
 select directory = liftF $ Select directory id
+
+create :: DirectoryName -> Imap Bool
+create directory = liftF $ Create directory id
 
 
 -- TODO

@@ -30,6 +30,7 @@ eval x = case x of
            Search _            n -> get >>= \d -> n $ fmap (M.keys) (M.lookup d mails)
            Fetch uids FQHeader n -> get >>= \d -> n $ fmap (\m -> map getHeader $ mapMaybe (flip M.lookup m) uids) (M.lookup d mails)
            Select p            n -> get >>= \o -> put (reduce $ o ++ "/" ++ p) >> get >>= \d -> n (fmap (const undefined) (M.lookup d mails))
+           Create d            n -> get >>= \o -> n . not $ elem (reduce $ o ++ "/" ++ d) (M.keys mails)
   where reduce p = onNull "/" $ case p of
                                   ('/':'/':r) -> reduce $ '/':r
                                   _           -> flattenLevels p
