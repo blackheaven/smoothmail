@@ -59,3 +59,6 @@ spec = do
         it "Delete an existing directory should be true" $ do
           runStubTest (delete "Personal")
           `shouldBe` True
+        it "Delete a non-existing directory should be false" $ do
+          runStubTest (delete "Unknown")
+          `shouldBe` False
