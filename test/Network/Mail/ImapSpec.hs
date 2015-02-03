@@ -55,6 +55,16 @@ spec = do
         it "Create an existing directory should be false" $ do
           runStubTest (create "Personal")
           `shouldBe` False
+    describe "rename" $ do
+        it "Rename an existing directory with a non-existing directory name should be true" $ do
+          runStubTest (rename "Personal" "Personal_new")
+          `shouldBe` True
+        it "Rename an existing directory with an existing directory name should be false" $ do
+          runStubTest (rename "Personal" "Work")
+          `shouldBe` False
+        it "Rename a non-existing directory should be false" $ do
+          runStubTest (rename "Unknown" "Unknown2")
+          `shouldBe` False
     describe "delete" $ do
         it "Delete an existing directory should be true" $ do
           runStubTest (delete "Personal")
