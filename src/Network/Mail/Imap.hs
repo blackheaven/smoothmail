@@ -7,6 +7,7 @@ module Network.Mail.Imap
   , fetchHeader
   , select
   , create
+  , rename
   , delete
   ) where
 
@@ -25,6 +26,9 @@ select directory = liftF $ Select directory id
 
 create :: DirectoryName -> Imap Bool
 create directory = liftF $ Create directory id
+
+rename :: DirectoryName -> Imap Bool
+rename directory = liftF $ Rename directory id
 
 delete :: DirectoryName -> Imap Bool
 delete directory = liftF $ Delete directory id
