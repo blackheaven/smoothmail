@@ -17,6 +17,7 @@ mails = M.fromList  [ ("/", M.fromList [
                                       , (UID 2, Mail (Header (UID 2) "2015-02-03 21:12" "S2" "T2"))
                                       ])
                     , ("/Personal", M.fromList [(UID 3, Mail (Header (UID 3) "2015-04-05 12:34" "S2" "T1"))])
+                    , ("/Work", M.fromList [])
                     ]
 
 runStubTest :: Imap a -> a
@@ -29,12 +30,13 @@ eval :: ImapF (State String a) -> State String a
 eval x = case x of
            Search _            n -> get >>= \d -> n $ fmap (M.keys) (M.lookup d mails)
            Fetch uids FQHeader n -> get >>= \d -> n $ fmap (\m -> map getHeader $ mapMaybe (flip M.lookup m) uids) (M.lookup d mails)
-           Select p            n -> get >>= \o -> put (reduce $ o ++ "/" ++ p) >> get >>= \d -> n (fmap (const undefined) (M.lookup d mails))
-           Create d            n -> get >>= \o -> n . not $ elem (reduce $ o ++ "/" ++ d) (M.keys mails)
-           Delete d            n -> get >>= \o -> n $ elem (reduce $ o ++ "/" ++ d) (M.keys mails)
-  where reduce p = onNull "/" $ case p of
-                                  ('/':'/':r) -> reduce $ '/':r
-                                  _           -> flattenLevels p
+           Select p            n -> get >>= \o -> put (canonicalize $ o ++ "/" ++ p) >> get >>= \d -> n (fmap (const undefined) (M.lookup d mails))
+           Create d            n -> get >>= \o -> n . not $ isExistingDirectory (o ++ "/" ++ d)
+           Rename d            n -> get >>= \o -> n $ (isExistingDirectory o) && (not $ isExistingDirectory (o ++ "/../" ++ d))
+           Delete d            n -> get >>= \o -> n $ isExistingDirectory (o ++ "/" ++ d)
+  where canonicalize p = onNull "/" $ case p of
+                                        ('/':'/':r) -> canonicalize ('/':r)
+                                        _           -> flattenLevels p
         flattenLevels = intercalate "/" . dropUp . splitOn '/'
         splitOn s a = case a of
                        [] -> []
@@ -44,3 +46,4 @@ eval x = case x of
                     (_:"..":xs) -> dropUp xs
                     (x:xs)      -> x:dropUp xs
         onNull c r = if null r then c else r
+        isExistingDirectory d = elem (canonicalize d) (M.keys mails)
