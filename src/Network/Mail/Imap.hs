@@ -9,6 +9,7 @@ module Network.Mail.Imap
   , create
   , rename
   , delete
+  , subscribe
   ) where
 
 import Network.Mail
@@ -32,6 +33,9 @@ rename directory = liftF $ Rename directory id
 
 delete :: DirectoryName -> Imap Bool
 delete directory = liftF $ Delete directory id
+
+subscribe :: DirectoryName -> Imap Bool
+subscribe directory = liftF $ Subscribe directory id
 
 
 -- TODO
