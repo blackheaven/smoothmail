@@ -35,6 +35,7 @@ eval x = case x of
            Rename d            n -> get >>= \o -> n $ (isExistingDirectory o) && (not $ isExistingDirectory (o ++ "/../" ++ d))
            Delete d            n -> get >>= \o -> n $ isExistingDirectory (o ++ "/" ++ d)
            Subscribe d         n -> get >>= \o -> n $ isExistingDirectory (o ++ "/" ++ d)
+           Unsubscribe d       n -> get >>= \o -> n $ isExistingDirectory (o ++ "/" ++ d)
   where canonicalize p = onNull "/" $ case p of
                                         ('/':'/':r) -> canonicalize ('/':r)
                                         _           -> flattenLevels p

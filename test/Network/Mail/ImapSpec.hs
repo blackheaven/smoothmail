@@ -76,3 +76,10 @@ spec = do
         it "Subscribe to a non-existing directory should be false" $ do
           runStubTest (subscribe "Unknown")
           `shouldBe` False
+    describe "unsubscribe" $ do
+        it "Unsubscribe to an existing directory should be true" $ do
+          runStubTest (unsubscribe "Personal")
+          `shouldBe` True
+        it "Unsubscribe to a non-existing directory should be false" $ do
+          runStubTest (unsubscribe "Unknown")
+          `shouldBe` False
