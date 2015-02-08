@@ -36,6 +36,7 @@ eval x = case x of
            Delete d            n -> get >>= \o -> n $ isExistingDirectory (o ++ "/" ++ d)
            Subscribe d         n -> get >>= \o -> n $ isExistingDirectory (o ++ "/" ++ d)
            Unsubscribe d       n -> get >>= \o -> n $ isExistingDirectory (o ++ "/" ++ d)
+           List _              n -> get >>= \o -> n $ Just ["Personal", "Work"]
   where canonicalize p = onNull "/" $ case p of
                                         ('/':'/':r) -> canonicalize ('/':r)
                                         _           -> flattenLevels p

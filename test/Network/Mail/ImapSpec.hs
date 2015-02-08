@@ -83,3 +83,7 @@ spec = do
         it "Unsubscribe to a non-existing directory should be false" $ do
           runStubTest (unsubscribe "Unknown")
           `shouldBe` False
+    describe "list" $ do
+        it "list 'INBOX' directory should return 'Personal' and 'Work'" $ do
+          runStubTest (list (Right "."))
+          `shouldBe` Just ["Personal", "Work"]
