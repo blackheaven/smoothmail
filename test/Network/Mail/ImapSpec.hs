@@ -85,5 +85,8 @@ spec = do
           `shouldBe` False
     describe "list" $ do
         it "list 'INBOX' directory should return 'Personal' and 'Work'" $ do
-          runStubTest (list (Right "."))
+          runStubTest (list (Left "."))
           `shouldBe` Just ["Personal", "Work"]
+        it "list 'Personal' directory should return en empty list" $ do
+          runStubTest (list (Left "Personal"))
+          `shouldBe` Just []

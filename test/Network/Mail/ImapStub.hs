@@ -10,6 +10,7 @@ import Control.Monad.Free (iterM)
 import Control.Monad.State
 import Data.Maybe (mapMaybe)
 import Data.List (intercalate)
+import Data.Function (on)
 import qualified Data.Map as M
 
 mails = M.fromList  [ ("/", M.fromList [
@@ -36,7 +37,7 @@ eval x = case x of
            Delete d            n -> get >>= \o -> n $ isExistingDirectory (o ++ "/" ++ d)
            Subscribe d         n -> get >>= \o -> n $ isExistingDirectory (o ++ "/" ++ d)
            Unsubscribe d       n -> get >>= \o -> n $ isExistingDirectory (o ++ "/" ++ d)
-           List _              n -> get >>= \o -> n $ Just ["Personal", "Work"]
+           List (Left d)       n -> get >>= \o -> n $ Just $ getSubdirectories (canonicalize (o ++ "/" ++ d))
   where canonicalize p = onNull "/" $ case p of
                                         ('/':'/':r) -> canonicalize ('/':r)
                                         _           -> flattenLevels p
@@ -47,6 +48,8 @@ eval x = case x of
         dropUp s = case s of
                     []          -> []
                     (_:"..":xs) -> dropUp xs
+                    (_:".":xs)  -> dropUp xs
                     (x:xs)      -> x:dropUp xs
         onNull c r = if null r then c else r
         isExistingDirectory d = elem (canonicalize d) (M.keys mails)
+        getSubdirectories root = let rs = splitOn '/' root in map last $ filter (and . zipWith (==) rs) $ filter (\ds -> ((length ds) + 1) == (length rs))  $ map (("":) . splitOn '/') $ map fst $ M.toList mails
