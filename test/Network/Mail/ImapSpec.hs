@@ -47,6 +47,12 @@ spec = do
         it "Print all mails" $ do
           runStubTest (select "Personal" >> prettyPrintCurrentDirectory)
           `shouldBe` Just ["3 2015-04-05 12:34 S2 T1"]
+        it "Print all mails after going to 'Personnal' then to itself" $ do
+          runStubTest (select "Personal" >> select "." >> prettyPrintCurrentDirectory)
+          `shouldBe` Just ["3 2015-04-05 12:34 S2 T1"]
+        it "Print all mails after going to itself then to 'Personnal'" $ do
+          runStubTest (select "Personal" >> select "." >> prettyPrintCurrentDirectory)
+          `shouldBe` Just ["3 2015-04-05 12:34 S2 T1"]
       describe "Unknown directory" $ do
         it "Print nothing" $ do
           runStubTest (select "Unknown" >> prettyPrintCurrentDirectory)
