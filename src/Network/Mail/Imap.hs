@@ -12,6 +12,7 @@ module Network.Mail.Imap
   , subscribe
   , unsubscribe
   , list
+  , lsub
   ) where
 
 import Network.Mail
@@ -44,6 +45,9 @@ unsubscribe directory = liftF $ Unsubscribe directory id
 
 list :: DirectorySearch -> Imap (Maybe [DirectoryName])
 list directorySearch = liftF $ List directorySearch id
+
+lsub :: DirectorySearch -> Imap (Maybe [DirectoryName])
+lsub directorySearch = liftF $ Lsub directorySearch id
 
 -- TODO
 -- # All State

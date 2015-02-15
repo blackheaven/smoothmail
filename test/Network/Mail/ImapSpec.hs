@@ -105,3 +105,10 @@ spec = do
         it "list 'Personal' directory should return en empty list" $ do
           runStubTest (list (Left "Personal"))
           `shouldBe` Just []
+    describe "lsub" $ do
+        it "lsub 'INBOX' directory should return 'Personal' and 'Work'" $ do
+          runStubTest (lsub (Left "."))
+          `shouldBe` Just ["Personal", "Work"]
+        it "lsub 'Personal' directory should return en empty list" $ do
+          runStubTest (lsub (Left "Personal"))
+          `shouldBe` Just []
