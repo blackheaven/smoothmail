@@ -112,3 +112,7 @@ spec = do
         it "lsub 'Personal' directory should return en empty list" $ do
           runStubTest (lsub (Left "Personal"))
           `shouldBe` Just []
+    describe "expunge" $ do
+        it "should be true" $ do
+          runStubTest expunge
+          `shouldBe` True

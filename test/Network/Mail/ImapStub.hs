@@ -39,6 +39,7 @@ eval x = case x of
            Unsubscribe d       n -> get >>= \o -> n $ isExistingDirectory (o ++ "/" ++ d)
            List (Left d)       n -> get >>= \o -> n $ Just $ getSubdirectories (canonicalize (o ++ "/" ++ d))
            Lsub (Left d)       n -> get >>= \o -> n $ Just $ getSubdirectories (canonicalize (o ++ "/" ++ d))
+           Expunge             n -> get >>= \o -> n True
   where canonicalize p = onNull "/" $ case p of
                                         ('/':'/':r) -> canonicalize ('/':r)
                                         _           -> flattenLevels p
