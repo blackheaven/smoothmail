@@ -116,3 +116,6 @@ spec = do
         it "should be true" $ do
           runStubTest expunge
           `shouldBe` True
+        it "should be false" $ do
+          runStubTest expunge
+          `shouldBe` False
