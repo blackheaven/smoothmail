@@ -117,5 +117,5 @@ spec = do
           runStubTest expunge
           `shouldBe` True
         it "go to 'Personal' folder and run expunge should be false" $ do
-          runStubTest (select "Personal" > expunge)
+          runStubTest (select "Personal" >> expunge)
           `shouldBe` False
