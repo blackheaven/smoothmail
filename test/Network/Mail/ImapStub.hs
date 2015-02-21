@@ -13,7 +13,7 @@ import Data.List (intercalate)
 import Data.Function (on)
 import qualified Data.Map as M
 
-mails = M.fromList  [ ("/", M.fromList [
+mails = M.fromList  [ ("/", M.fromList [ -- aka root or INBOX
                                        (UID 1, Mail (Header (UID 1) "2015-01-01 10:10" "S1" "T1"))
                                       , (UID 2, Mail (Header (UID 2) "2015-02-03 21:12" "S2" "T2"))
                                       ])
@@ -39,7 +39,7 @@ eval x = case x of
            Unsubscribe d       n -> get >>= \o -> n $ isExistingDirectory (o ++ "/" ++ d)
            List (Left d)       n -> get >>= \o -> n $ Just $ getSubdirectories (canonicalize (o ++ "/" ++ d))
            Lsub (Left d)       n -> get >>= \o -> n $ Just $ getSubdirectories (canonicalize (o ++ "/" ++ d))
-           Expunge             n -> get >>= \o -> n True
+           Expunge             n -> get >>= \o -> n $ o == "/" -- We only allow to delete old messages if we are on the root folder
   where canonicalize p = onNull "/" $ case p of
                                         ('/':'/':r) -> canonicalize ('/':r)
                                         _           -> flattenLevels p
