@@ -119,3 +119,7 @@ spec = do
         it "go to 'Personal' folder and run expunge should be false" $ do
           runStubTest (select "Personal" >> expunge)
           `shouldBe` False
+    describe "check" $ do
+        it "Check and print all mails of 'INBOX'" $ do
+          runStubTest (check >> prettyPrintCurrentDirectory)
+          `shouldBe` Just ["1 2015-01-01 10:10 S1 T1", "2 2015-02-03 21:12 S2 T2"]
