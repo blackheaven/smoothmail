@@ -14,6 +14,7 @@ module Network.Mail.Imap
   , list
   , lsub
   , expunge
+  , check
   ) where
 
 import Network.Mail
@@ -52,6 +53,9 @@ lsub directorySearch = liftF $ Lsub directorySearch id
 
 expunge :: Imap Bool
 expunge = liftF $ Expunge id
+
+check :: Imap ()
+check = liftF $ Check ()
 
 -- TODO
 -- # All State
