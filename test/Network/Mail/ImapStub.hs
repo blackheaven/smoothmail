@@ -40,6 +40,7 @@ eval x = case x of
            List (Left d)       n -> get >>= \o -> n $ Just $ getSubdirectories (canonicalize (o ++ "/" ++ d))
            Lsub (Left d)       n -> get >>= \o -> n $ Just $ getSubdirectories (canonicalize (o ++ "/" ++ d))
            Expunge             n -> get >>= \o -> n $ o == "/" -- We only allow to delete old messages if we are on the root folder
+           Check               n ->               n
   where canonicalize p = onNull "/" $ case p of
                                         ('/':'/':r) -> canonicalize ('/':r)
                                         _           -> flattenLevels p
