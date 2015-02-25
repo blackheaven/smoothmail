@@ -123,3 +123,6 @@ spec = do
         it "Check and print all mails of 'INBOX'" $ do
           runStubTest (check >> prettyPrintCurrentDirectory)
           `shouldBe` Just ["1 2015-01-01 10:10 S1 T1", "2 2015-02-03 21:12 S2 T2"]
+        it "Check and list 'INBOX' directory should return 'Personal' and 'Work'" $ do
+          runStubTest (check >> list (Left "."))
+          `shouldBe` Just ["Personal", "Work"]
