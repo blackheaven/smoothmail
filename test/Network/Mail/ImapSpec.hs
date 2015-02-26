@@ -126,3 +126,6 @@ spec = do
         it "Check and list 'INBOX' directory should return 'Personal' and 'Work'" $ do
           runStubTest (check >> list (Left "."))
           `shouldBe` Just ["Personal", "Work"]
+        it "Check, go to 'Personal' folder and print all mails" $ do
+          runStubTest (check >> select "Personal" >> prettyPrintCurrentDirectory)
+          `shouldBe` Just ["3 2015-04-05 12:34 S2 T1"]
