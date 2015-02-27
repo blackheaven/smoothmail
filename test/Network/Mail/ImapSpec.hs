@@ -129,3 +129,6 @@ spec = do
         it "Check, go to 'Personal' folder and print all mails" $ do
           runStubTest (check >> select "Personal" >> prettyPrintCurrentDirectory)
           `shouldBe` Just ["3 2015-04-05 12:34 S2 T1"]
+        it "Check and rename an existing directory with a non-existing directory name should be true" $ do
+          runStubTest (check >> select "Personal" >> rename "Personal_new")
+          `shouldBe` True
