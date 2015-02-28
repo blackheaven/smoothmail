@@ -164,3 +164,6 @@ spec = do
         it "Examine itself should return a DirectoryDescription with two mails" $ do
           runStubTest (examine ".")
           `shouldBe` Just (DirectoryDescription 0 2 0)
+        it "Examine an unknown directory should return Nothing" $ do
+          runStubTest (examine "Unknown")
+          `shouldBe` Nothing
