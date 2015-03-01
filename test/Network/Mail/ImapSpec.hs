@@ -132,3 +132,6 @@ spec = do
         it "Check and rename an existing directory with a non-existing directory name should be true" $ do
           runStubTest (check >> select "Personal" >> rename "Personal_new")
           `shouldBe` True
+        it "Check and subscribe to an existing directory should be true" $ do
+          runStubTest (check >> subscribe "Personal")
+          `shouldBe` True
