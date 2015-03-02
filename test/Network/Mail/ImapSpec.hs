@@ -135,3 +135,6 @@ spec = do
         it "Check and subscribe to an existing directory should be true" $ do
           runStubTest (check >> subscribe "Personal")
           `shouldBe` True
+        it "Check and unsubscribe to an existing directory should be true" $ do
+          runStubTest (check >> unsubscribe "Personal")
+          `shouldBe` True
