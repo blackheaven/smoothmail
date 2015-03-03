@@ -138,3 +138,6 @@ spec = do
         it "Check and unsubscribe to an existing directory should be true" $ do
           runStubTest (check >> unsubscribe "Personal")
           `shouldBe` True
+        it "Check and list 'INBOX' directory should return 'Personal' and 'Work'" $ do
+          runStubTest (check >> list (Left "."))
+          `shouldBe` Just ["Personal", "Work"]
