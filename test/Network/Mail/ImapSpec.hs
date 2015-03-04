@@ -141,3 +141,6 @@ spec = do
         it "Check and list 'INBOX' directory should return 'Personal' and 'Work'" $ do
           runStubTest (check >> list (Left "."))
           `shouldBe` Just ["Personal", "Work"]
+        it "Check and lsub 'INBOX' directory should return 'Personal' and 'Work'" $ do
+          runStubTest (check >> lsub (Left "."))
+          `shouldBe` Just ["Personal", "Work"]
