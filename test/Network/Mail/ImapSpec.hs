@@ -144,3 +144,6 @@ spec = do
         it "Check and lsub 'INBOX' directory should return 'Personal' and 'Work'" $ do
           runStubTest (check >> lsub (Left "."))
           `shouldBe` Just ["Personal", "Work"]
+        it "Check and expunge should be true" $ do
+          runStubTest (check >> expunge)
+          `shouldBe` True
