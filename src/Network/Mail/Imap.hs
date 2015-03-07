@@ -15,6 +15,7 @@ module Network.Mail.Imap
   , lsub
   , expunge
   , check
+  , examine
   ) where
 
 import Network.Mail
@@ -56,6 +57,9 @@ expunge = liftF $ Expunge id
 
 check :: Imap ()
 check = liftF $ Check ()
+
+examine :: DirectoryName -> Imap (Maybe DirectoryDescription)
+examine directory = liftF $ Examine directory id
 
 -- TODO
 -- # All State
