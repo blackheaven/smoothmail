@@ -41,6 +41,7 @@ eval x = case x of
            Lsub (Left d)       n -> get >>= \o -> n $ Just $ getSubdirectories (canonicalize (o ++ "/" ++ d))
            Expunge             n -> get >>= \o -> n $ o == "/" -- We only allow to delete old messages if we are on the root folder
            Check               n ->               n
+           Examine p           n -> get >>= \o -> n $ fmap (const undefined) (M.lookup (canonicalize $ o ++ "/" ++ p) mails)
   where canonicalize p = onNull "/" $ case p of
                                         ('/':'/':r) -> canonicalize ('/':r)
                                         _           -> flattenLevels p
