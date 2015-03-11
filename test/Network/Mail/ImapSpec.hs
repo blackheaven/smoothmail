@@ -4,6 +4,7 @@ import Test.Hspec
 import Data.List (intercalate)
 import Network.Mail
 import Network.Mail.Imap
+import Network.Mail.Imap.Types
 import Network.Mail.ImapStub
 
 prettyPrintCurrentDirectory :: Imap (Maybe [String])
@@ -153,4 +154,4 @@ spec = do
           `shouldBe` Just ["1 2015-01-01 10:10 S1 T1", "2 2015-02-03 21:12 S2 T2"]
         it "Examine a directory should return something" $ do
           runStubTest (examine "Personal")
-          `shouldBe` Just (Mail (Header (UID 3) "2015-04-05 12:34" "S2" "T1"))
+          `shouldBe` Just (DirectoryDescription 0 1 0)

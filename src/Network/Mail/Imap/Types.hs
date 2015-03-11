@@ -6,7 +6,7 @@ module Network.Mail.Imap.Types
   ( Imap
   , ImapF(..)
   , DirectoryName
-  , DirectoryDescription
+  , DirectoryDescription(..)
   , DirectoryPattern
   , DirectorySearch
   , StatusDataItemName
@@ -67,10 +67,10 @@ type Imap = Free ImapF
 
 type DirectoryName = String
 data DirectoryDescription = DirectoryDescription
-                          { expunge :: Integer
+                          { expunges :: Integer
                           , exists :: Integer
-                          , recent :: Integer
-                          }
+                          , recents :: Integer
+                          } deriving (Eq, Show)
 
 type DirectoryPattern = String
 type DirectorySearch = Either DirectoryName DirectoryPattern
