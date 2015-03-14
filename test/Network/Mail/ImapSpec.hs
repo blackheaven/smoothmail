@@ -32,6 +32,9 @@ spec = do
   describe "DSL usecases" $ do
     describe "select" $ do
       describe "'INBOX' directory" $ do
+        it "DirectoryDescription with two mails" $ do
+          runStubTest (select ".")
+          `shouldBe` Just (DirectoryDescription 0 2 0)
         it "Print all mails" $ do
           runStubTest prettyPrintCurrentDirectory
           `shouldBe` Just ["1 2015-01-01 10:10 S1 T1", "2 2015-02-03 21:12 S2 T2"]
