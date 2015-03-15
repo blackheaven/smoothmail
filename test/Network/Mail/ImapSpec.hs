@@ -54,6 +54,9 @@ spec = do
           runStubTest (select "Personal" >> select "." >> select ".." >> prettyPrintCurrentDirectory)
           `shouldBe` Just ["1 2015-01-01 10:10 S1 T1", "2 2015-02-03 21:12 S2 T2"]
       describe "'Personal' directory" $ do
+        it "DirectoryDescription with only one mail" $ do
+          runStubTest (select "Personal")
+          `shouldBe` Just (DirectoryDescription 0 1 0)
         it "Print all mails" $ do
           runStubTest (select "Personal" >> prettyPrintCurrentDirectory)
           `shouldBe` Just ["3 2015-04-05 12:34 S2 T1"]
