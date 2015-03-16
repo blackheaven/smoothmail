@@ -161,3 +161,6 @@ spec = do
         it "Examine a directory should return a DirectoryDescription with only one mail" $ do
           runStubTest (examine "Personal")
           `shouldBe` Just (DirectoryDescription 0 1 0)
+        it "Examine itself should return a DirectoryDescription with two mails" $ do
+          runStubTest (examine ".")
+          `shouldBe` Just (DirectoryDescription 0 2 0)
