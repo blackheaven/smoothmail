@@ -31,7 +31,7 @@ eval :: ImapF (State String a) -> State String a
 eval x = case x of
            Search _            n -> get >>= \d -> n $ fmap (M.keys) (M.lookup d mails)
            Fetch uids FQHeader n -> get >>= \d -> n $ fmap (\m -> map getHeader $ mapMaybe (flip M.lookup m) uids) (M.lookup d mails)
-           Select p            n -> get >>= \o -> put (canonicalize $ o ++ "/" ++ p) >> get >>= \d -> n (fmap (const undefined) (M.lookup d mails))
+           Select p            n -> get >>= \o -> put (canonicalize $ o ++ "/" ++ p) >> get >>= \d -> n (fmap makeDirectoryDescription (M.lookup d mails))
            Create d            n -> get >>= \o -> n . not $ isExistingDirectory (o ++ "/" ++ d)
            Rename d            n -> get >>= \o -> n $ (isExistingDirectory o) && (not $ isExistingDirectory (o ++ "/../" ++ d))
            Delete d            n -> get >>= \o -> n $ isExistingDirectory (o ++ "/" ++ d)
@@ -41,7 +41,7 @@ eval x = case x of
            Lsub (Left d)       n -> get >>= \o -> n $ Just $ getSubdirectories (canonicalize (o ++ "/" ++ d))
            Expunge             n -> get >>= \o -> n $ o == "/" -- We only allow to delete old messages if we are on the root folder
            Check               n ->               n
-           Examine p           n -> get >>= \o -> n $ fmap (const (DirectoryDescription 0 1 0)) (M.lookup (canonicalize $ o ++ "/" ++ p) mails)
+           Examine p           n -> get >>= \o -> n $ fmap makeDirectoryDescription (M.lookup (canonicalize $ o ++ "/" ++ p) mails)
   where canonicalize p = onNull "/" $ case p of
                                         ('/':'/':r) -> canonicalize ('/':r)
                                         _           -> flattenLevels p
@@ -57,3 +57,4 @@ eval x = case x of
         onNull c r = if null r then c else r
         isExistingDirectory d = elem (canonicalize d) (M.keys mails)
         getSubdirectories root = let rs = splitOn '/' root in map last $ filter (and . zipWith (==) rs) $ filter (\ds -> ((length rs) + 1) == (length ds))  $ map (splitOn '/') $ map fst $ M.toList mails
+        makeDirectoryDescription d = DirectoryDescription 0 2 0
