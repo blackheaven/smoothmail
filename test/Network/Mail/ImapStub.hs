@@ -57,4 +57,4 @@ eval x = case x of
         onNull c r = if null r then c else r
         isExistingDirectory d = elem (canonicalize d) (M.keys mails)
         getSubdirectories root = let rs = splitOn '/' root in map last $ filter (and . zipWith (==) rs) $ filter (\ds -> ((length rs) + 1) == (length ds))  $ map (splitOn '/') $ map fst $ M.toList mails
-        makeDirectoryDescription d = DirectoryDescription 0 2 0
+        makeDirectoryDescription d = DirectoryDescription 0 (toInteger $ M.size d) 0
