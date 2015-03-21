@@ -167,3 +167,7 @@ spec = do
         it "Examine an unknown directory should return Nothing" $ do
           runStubTest (examine "Unknown")
           `shouldBe` Nothing
+    describe "noop" $ do
+        it "Noop on 'INBOX' should return a DirectoryDescription with two mails" $ do
+          runStubTest noop
+          `shouldBe` DirectoryDescription 0 2 0
