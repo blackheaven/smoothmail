@@ -8,7 +8,7 @@ import Network.Mail.Imap
 import Network.Mail.Imap.Types
 import Control.Monad.Free (iterM)
 import Control.Monad.State
-import Data.Maybe (mapMaybe)
+import Data.Maybe (mapMaybe, fromJust)
 import Data.List (intercalate)
 import Data.Function (on)
 import qualified Data.Map as M
@@ -42,6 +42,7 @@ eval x = case x of
            Expunge             n -> get >>= \o -> n $ o == "/" -- We only allow to delete old messages if we are on the root folder
            Check               n ->               n
            Examine p           n -> get >>= \o -> n $ fmap makeDirectoryDescription (M.lookup (canonicalize $ o ++ "/" ++ p) mails)
+           Noop                n -> get >>= \o -> n $ makeDirectoryDescription $ fromJust $ M.lookup o mails
   where canonicalize p = onNull "/" $ case p of
                                         ('/':'/':r) -> canonicalize ('/':r)
                                         _           -> flattenLevels p
