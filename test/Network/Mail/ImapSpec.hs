@@ -171,3 +171,6 @@ spec = do
         it "Noop on 'INBOX' should return a DirectoryDescription with two mails" $ do
           runStubTest noop
           `shouldBe` DirectoryDescription 0 2 0
+        it "Noop on 'Personal' should return a DirectoryDescription with one mail" $ do
+          runStubTest (select "Personal" >> noop)
+          `shouldBe` DirectoryDescription 0 1 0
