@@ -180,6 +180,6 @@ spec = do
         it "Noop on an unknown directory after going in a know one should return the DirectoryDescription of the known directory, ie. one mail" $ do
           runStubTest (select "Personal" >> select "Unknown" >> noop)
           `shouldBe` DirectoryDescription 0 1 0
-        it "Noop on an unknown directory after going in a know one should return the DirectoryDescription of the known directory, ie. one mail" $ do
+        it "Noop on an unknown directory on the parent directory after going in a know one should return the DirectoryDescription of the known directory, ie. one mail" $ do
           runStubTest (select "Personal" >> select "../Unknown" >> noop)
           `shouldBe` DirectoryDescription 0 1 0
