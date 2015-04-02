@@ -52,40 +52,66 @@ onSearch n = do
   n $ fmap (M.keys) (M.lookup currentDirectory mails)
 
 onFetch :: [UID] -> (Maybe [Header] -> State String b) -> State String b
-onFetch uids n = get >>= \d -> n $ fmap (\m -> map getHeader $ mapMaybe (flip M.lookup m) uids) (M.lookup d mails)
+onFetch uids n = do
+  currentDirectory <- get
+  n $ fmap (\m -> map getHeader $ mapMaybe (flip M.lookup m) uids) (M.lookup currentDirectory mails)
 
 onSelect :: String -> (Maybe DirectoryDescription -> State String b) -> State String b
-onSelect p n = get >>= \o -> put (canonicalize $ o ++ "/" ++ p) >> get >>= \d -> n (fmap makeDirectoryDescription (M.lookup d mails))
+onSelect p n = do
+  currentDirectory <- get
+  put (canonicalize $ currentDirectory ++ "/" ++ p)
+  newDirectory <- get
+  n (fmap makeDirectoryDescription (M.lookup newDirectory mails))
 
 onCreate :: String -> (Bool -> State String b) -> State String b
-onCreate d n = get >>= \o -> n . not $ isExistingDirectory (o ++ "/" ++ d)
+onCreate d n = do
+  currentDirectory <- get
+  n . not $ isExistingDirectory (currentDirectory ++ "/" ++ d)
 
 onRename :: String -> (Bool -> State String b) -> State String b
-onRename d n = get >>= \o -> n $ (isExistingDirectory o) && (not $ isExistingDirectory (o ++ "/../" ++ d))
+onRename d n = do
+  currentDirectory <- get
+  n $ (isExistingDirectory currentDirectory) && (not $ isExistingDirectory (currentDirectory ++ "/../" ++ d))
 
 onDelete :: String -> (Bool -> State String b) -> State String b
-onDelete d n = get >>= \o -> n $ isExistingDirectory (o ++ "/" ++ d)
+onDelete d n = do
+  currentDirectory <- get
+  n $ isExistingDirectory (currentDirectory ++ "/" ++ d)
 
 onSubscribe :: String -> (Bool -> State String b) -> State String b
-onSubscribe d n = get >>= \o -> n $ isExistingDirectory (o ++ "/" ++ d)
+onSubscribe d n = do
+  currentDirectory <- get
+  n $ isExistingDirectory (currentDirectory ++ "/" ++ d)
 
 onUnsubscribe :: String -> (Bool -> State String b) -> State String b
-onUnsubscribe d n = get >>= \o -> n $ isExistingDirectory (o ++ "/" ++ d)
+onUnsubscribe d n = do
+  currentDirectory <- get
+  n $ isExistingDirectory (currentDirectory ++ "/" ++ d)
 
 onList :: String -> (Maybe [String] -> State String b) -> State String b
-onList d n = get >>= \o -> n $ Just $ getSubdirectories (canonicalize (o ++ "/" ++ d))
+onList d n = do
+  currentDirectory <- get
+  n $ Just $ getSubdirectories (canonicalize (currentDirectory ++ "/" ++ d))
 
 onLsub :: String -> (Maybe [String] -> State String b) -> State String b
-onLsub d n = get >>= \o -> n $ Just $ getSubdirectories (canonicalize (o ++ "/" ++ d))
+onLsub d n = do
+  currentDirectory <- get
+  n $ Just $ getSubdirectories (canonicalize (currentDirectory ++ "/" ++ d))
 
 onExpunge :: (Bool -> State String b) -> State String b
-onExpunge n = get >>= \o -> n $ o == "/" -- We only allow to delete old messages if we are on the root folder
+onExpunge n = do
+  currentDirectory <- get
+  n $ currentDirectory == "/" -- We only allow to delete old messages if we are on the root folder
 
 onExamine :: String -> (Maybe DirectoryDescription -> State String b) -> State String b
-onExamine p n = get >>= \o -> n $ fmap makeDirectoryDescription (M.lookup (canonicalize $ o ++ "/" ++ p) mails)
+onExamine p n = do
+  currentDirectory <- get
+  n $ fmap makeDirectoryDescription (M.lookup (canonicalize $ currentDirectory ++ "/" ++ p) mails)
 
 onNoop :: (DirectoryDescription -> State String b) -> State String b
-onNoop n = get >>= \o -> n $ fromMaybe (DirectoryDescription 0 2 0) $ fmap makeDirectoryDescription  (M.lookup o mails)
+onNoop n = do
+  currentDirectory <- get
+  n $ fromMaybe (DirectoryDescription 0 2 0) $ fmap makeDirectoryDescription  (M.lookup currentDirectory mails)
 
 -- Helpers
 canonicalize :: String -> String
