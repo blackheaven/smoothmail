@@ -8,7 +8,7 @@ import Network.Mail.Imap
 import Network.Mail.Imap.Types
 import Control.Monad.Free (iterM)
 import Control.Monad.State
-import Data.Maybe (mapMaybe, fromMaybe)
+import Data.Maybe (mapMaybe, fromMaybe, isJust)
 import Data.List (intercalate)
 import Data.Function (on)
 import qualified Data.Map as M
@@ -59,9 +59,10 @@ onFetch uids n = do
 onSelect :: String -> (Maybe DirectoryDescription -> State String b) -> State String b
 onSelect p n = do
   currentDirectory <- get
-  put (canonicalize $ currentDirectory ++ "/" ++ p)
-  newDirectory <- get
-  n (fmap makeDirectoryDescription (M.lookup newDirectory mails))
+  let newDirectory = canonicalize $ currentDirectory ++ "/" ++ p
+  let newDirectoryStatus = M.lookup newDirectory mails
+  if isJust newDirectoryStatus then put newDirectory else return ()
+  n $ fmap makeDirectoryDescription newDirectoryStatus
 
 onCreate :: String -> (Bool -> State String b) -> State String b
 onCreate d n = do
