@@ -67,9 +67,9 @@ spec = do
           runStubTest (select "." >> select "Personal" >> prettyPrintCurrentDirectory)
           `shouldBe` Just ["3 2015-04-05 12:34 S2 T1"]
       describe "Unknown directory" $ do
-        it "Print nothing" $ do
+        it "Print the cotent of the previous valid Directory, here 'INBOX'" $ do
           runStubTest (select "Unknown" >> prettyPrintCurrentDirectory)
-          `shouldBe` Nothing
+          `shouldBe` Just ["1 2015-01-01 10:10 S1 T1", "2 2015-02-03 21:12 S2 T2"]
     describe "create" $ do
         it "Create a non-existing directory should be true" $ do
           runStubTest (create "New")
