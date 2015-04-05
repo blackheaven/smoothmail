@@ -17,6 +17,7 @@ module Network.Mail.Imap
   , check
   , examine
   , noop
+  , status
   ) where
 
 import Network.Mail
@@ -64,6 +65,9 @@ examine directory = liftF $ Examine directory id
 
 noop :: Imap DirectoryDescription
 noop = liftF $ Noop id
+
+status :: DirectoryName -> [StatusDataItemName] -> Imap (Maybe DirectoryDescription)
+status n i = liftF $ Status n i id
 
 -- TODO
 -- # All State

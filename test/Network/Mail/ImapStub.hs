@@ -44,6 +44,7 @@ eval x = case x of
            Check               n -> n
            Examine p           n -> onExamine p n
            Noop                n -> onNoop n
+           Status d i          n -> onStatus d i n
 
 -- actions
 onSearch :: (Maybe [UID] -> State String a) -> State String a
@@ -113,6 +114,9 @@ onNoop :: (DirectoryDescription -> State String b) -> State String b
 onNoop n = do
   currentDirectory <- get
   n $ fromMaybe (DirectoryDescription 0 2 0) $ fmap makeDirectoryDescription  (M.lookup currentDirectory mails)
+
+onStatus :: DirectoryName -> [StatusDataItemName] -> (Maybe DirectoryDescription -> State String b) -> State String b
+onStatus d i n = undefined
 
 -- Helpers
 canonicalize :: String -> String
