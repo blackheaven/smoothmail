@@ -183,3 +183,7 @@ spec = do
         it "Noop on an unknown directory on the parent directory after going in a know one should return the DirectoryDescription of the known directory, ie. one mail" $ do
           runStubTest (select "Personal" >> select "../Unknown" >> noop)
           `shouldBe` DirectoryDescription 0 1 0
+    describe "status" $ do
+        it "status on itself with no required item should return a DirectoryDescription with two mails" $ do
+          runStubTest (status "." [])
+          `shouldBe` Just (DirectoryDescription 0 2 0)
