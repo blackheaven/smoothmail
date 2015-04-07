@@ -116,7 +116,7 @@ onNoop n = do
   n $ fromMaybe (DirectoryDescription 0 2 0) $ fmap makeDirectoryDescription  (M.lookup currentDirectory mails)
 
 onStatus :: DirectoryName -> [StatusDataItemName] -> (Maybe DirectoryDescription -> State String b) -> State String b
-onStatus d i n = n $ Just (DirectoryDescription 0 2 0)
+onStatus d i n = onExamine d n
 
 -- Helpers
 canonicalize :: String -> String
