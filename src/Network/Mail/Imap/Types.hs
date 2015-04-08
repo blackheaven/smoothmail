@@ -9,7 +9,7 @@ module Network.Mail.Imap.Types
   , DirectoryDescription(..)
   , DirectoryPattern
   , DirectorySearch
-  , StatusDataItemName
+  , StatusDataItemName(..)
   , MailSearch
   , Flag
   , Flags
