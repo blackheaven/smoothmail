@@ -205,3 +205,10 @@ spec = do
         it "status on 'Personal' should return a DirectoryDescription with two mails" $ do
           runStubTest (status "Personal" [Messages])
           `shouldBe` Just (DirectoryDescription 0 1 0)
+      describe "recent item" $ do
+        it "status on 'INBOX' should return a DirectoryDescription with two mails" $ do
+          runStubTest (status "." [Recent])
+          `shouldBe` Just (DirectoryDescription 0 2 0)
+        it "status on 'Personal' should return a DirectoryDescription with two mails" $ do
+          runStubTest (status "Personal" [Recent])
+          `shouldBe` Just (DirectoryDescription 0 1 0)
