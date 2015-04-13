@@ -226,3 +226,10 @@ spec = do
         it "status on 'Personal' should return a DirectoryDescription with two mails" $ do
           runStubTest (status "Personal" [Uidvalidity])
           `shouldBe` Just (DirectoryDescription 0 1 0)
+      describe "unseen and messages item" $ do
+        it "status on 'INBOX' should return a DirectoryDescription with two mails" $ do
+          runStubTest (status "." [Unseen, Messages])
+          `shouldBe` Just (DirectoryDescription 0 1 0)
+        it "status on 'Personal' should return a DirectoryDescription with two mails" $ do
+          runStubTest (status "Personal" [Unseen, Messages])
+          `shouldBe` Just (DirectoryDescription 0 1 0)
