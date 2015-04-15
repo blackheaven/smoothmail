@@ -9,7 +9,7 @@ module Network.Mail.Imap.Types
   , DirectoryDescription(..)
   , DirectoryPattern
   , DirectorySearch
-  , StatusDataItemName(..)
+  , StatusQuery(..)
   , MailSearch
   , Flag
   , Flags
@@ -22,24 +22,24 @@ import Network.Mail
 import Control.Monad.Free
 
 data ImapF next =
-      Select DirectoryName                      (Maybe DirectoryDescription -> next)
-    | Examine DirectoryName                     (Maybe DirectoryDescription -> next)
-    | Noop                                      (DirectoryDescription -> next)
-    | Create DirectoryName                      (Bool -> next)
-    | Delete DirectoryName                      (Bool -> next)
-    | Rename DirectoryName                      (Bool -> next)
-    | Subscribe DirectoryName                   (Bool -> next)
-    | Unsubscribe DirectoryName                 (Bool -> next)
-    | List DirectorySearch                      (Maybe [DirectoryName] -> next)
-    | Lsub DirectorySearch                      (Maybe [DirectoryName] -> next)
-    | Status DirectoryName [StatusDataItemName] (Maybe DirectoryDescription -> next)
-    | Append (Maybe Flags) (Maybe Date) Mail    (Bool -> next)
-    | Check                                     next -- Selected state only
-    | Expunge                                   (Bool -> next) -- S
-    | Search MailSearch                         (Maybe [UID] -> next) -- S
-    | forall a. Fetch [UID] (FetchQuery a)      (Maybe [a] -> next) -- S
-    | Store [UID] FlagUpdate                    (Bool -> next) -- S
-    | Copy [UID] DirectoryName                  (Bool -> next) -- S
+      Select DirectoryName                           (Maybe DirectoryDescription -> next)
+    | Examine DirectoryName                          (Maybe DirectoryDescription -> next)
+    | Noop                                           (DirectoryDescription -> next)
+    | Create DirectoryName                           (Bool -> next)
+    | Delete DirectoryName                           (Bool -> next)
+    | Rename DirectoryName                           (Bool -> next)
+    | Subscribe DirectoryName                        (Bool -> next)
+    | Unsubscribe DirectoryName                      (Bool -> next)
+    | List DirectorySearch                           (Maybe [DirectoryName] -> next)
+    | Lsub DirectorySearch                           (Maybe [DirectoryName] -> next)
+    | forall a. Status DirectoryName (StatusQuery a) (Maybe a -> next)
+    | Append (Maybe Flags) (Maybe Date) Mail         (Bool -> next)
+    | Check                                          next -- Selected state only
+    | Expunge                                        (Bool -> next) -- S
+    | Search MailSearch                              (Maybe [UID] -> next) -- S
+    | forall a. Fetch [UID] (FetchQuery a)           (Maybe [a] -> next) -- S
+    | Store [UID] FlagUpdate                         (Bool -> next) -- S
+    | Copy [UID] DirectoryName                       (Bool -> next) -- S
     -- UID -- S TODO
 
 instance Functor ImapF where
@@ -75,11 +75,15 @@ data DirectoryDescription = DirectoryDescription
 type DirectoryPattern = String
 type DirectorySearch = Either DirectoryName DirectoryPattern
 
-data StatusDataItemName = Messages
-                        | Recent
-                        | Uidnext
-                        | Uidvalidity
-                        | Unseen
+data StatusQuery  :: * -> * where
+    -- Composition
+    SQProduct     :: StatusQuery a -> StatusQuery b -> StatusQuery (a, b)
+    -- Units
+    SQMessages    :: StatusQuery Message
+    SQRecent      :: StatusQuery Recent
+    SQUidnext     :: StatusQuery Uidnext
+    SQUidvalidity :: StatusQuery Uidvalidity
+    SQUnseen      :: StatusQuery Unseen
 
 data MailSearch = MSAll
                 | MSAnswered
