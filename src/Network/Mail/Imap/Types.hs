@@ -85,6 +85,12 @@ data StatusQuery  :: * -> * where
     SQUidvalidity :: StatusQuery Uidvalidity
     SQUnseen      :: StatusQuery Unseen
 
+data Message
+data Recent
+data Uidnext
+data Uidvalidity
+data Unseen
+
 data MailSearch = MSAll
                 | MSAnswered
                 | MSBcc String

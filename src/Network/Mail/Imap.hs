@@ -66,7 +66,7 @@ examine directory = liftF $ Examine directory id
 noop :: Imap DirectoryDescription
 noop = liftF $ Noop id
 
-status :: DirectoryName -> [StatusDataItemName] -> Imap (Maybe DirectoryDescription)
+status :: DirectoryName -> (StatusQuery a) -> Imap (Maybe a)
 status n i = liftF $ Status n i id
 
 -- TODO
