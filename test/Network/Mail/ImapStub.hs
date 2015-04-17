@@ -116,7 +116,16 @@ onNoop n = do
   n $ fromMaybe (DirectoryDescription 0 2 0) $ fmap makeDirectoryDescription  (M.lookup currentDirectory mails)
 
 onStatus :: DirectoryName -> (StatusQuery a) -> (Maybe a -> State String b) -> State String b
-onStatus d i n = onExamine d n
+onStatus d i n = do
+  currentDirectory <- get
+  n $ fmap (extractInfo i) (M.lookup currentDirectory mails)
+  where extractInfo q m = case q of
+                          -- SQProduct a b -> (extractInfo a m, extractInfo b m)
+                          SQMessages    -> undefined
+                          SQRecent      -> undefined
+                          SQUidnext     -> undefined
+                          SQUidvalidity -> undefined
+                          SQUnseen      -> undefined
 
 -- Helpers
 canonicalize :: String -> String
