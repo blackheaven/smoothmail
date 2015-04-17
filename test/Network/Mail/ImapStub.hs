@@ -119,8 +119,9 @@ onStatus :: DirectoryName -> (StatusQuery a) -> (Maybe a -> State String b) -> S
 onStatus d i n = do
   currentDirectory <- get
   n $ fmap (extractInfo i) (M.lookup currentDirectory mails)
-  where extractInfo q m = case q of
-                          -- SQProduct a b -> (extractInfo a m, extractInfo b m)
+  where extractInfo :: StatusQuery a -> M.Map UID Mail -> a
+        extractInfo q m = case q of
+                          SQProduct a b -> (extractInfo a m, extractInfo b m)
                           SQMessages    -> undefined
                           SQRecent      -> undefined
                           SQUidnext     -> undefined
