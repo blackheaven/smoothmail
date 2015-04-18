@@ -79,17 +79,17 @@ data StatusQuery  :: * -> * where
     -- Composition
     SQProduct     :: StatusQuery a -> StatusQuery b -> StatusQuery (a, b)
     -- Units
-    SQMessages    :: StatusQuery Message
+    SQMessages    :: StatusQuery Messages
     SQRecent      :: StatusQuery Recent
     SQUidnext     :: StatusQuery Uidnext
     SQUidvalidity :: StatusQuery Uidvalidity
     SQUnseen      :: StatusQuery Unseen
 
-data Message
-data Recent
-data Uidnext
-data Uidvalidity
-data Unseen
+type Messages = Integer
+type Recent = Integer
+type Uidnext = UID
+type Uidvalidity = UID
+type Unseen = Integer
 
 data MailSearch = MSAll
                 | MSAnswered
