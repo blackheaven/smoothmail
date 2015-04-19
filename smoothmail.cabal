@@ -40,7 +40,7 @@ test-suite spec
   main-is:
       Spec.hs
   build-depends:
-      base >=4.7 && <4.8
+      base >=4.7
     , smoothmail
     , hspec   == 2.*
     , free == 4.10.*

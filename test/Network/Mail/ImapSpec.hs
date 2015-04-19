@@ -185,58 +185,58 @@ spec = do
           `shouldBe` DirectoryDescription 0 1 0
     describe "status" $ do
       describe "no required item" $ do
-        it "status on 'INBOX' should return a DirectoryDescription with two mails" $ do
+        it "status on 'INBOX' should return with two mails" $ do
           runStubTest (status "." [])
-          `shouldBe` Just (DirectoryDescription 0 2 0)
-        it "status on 'Personal' should return a DirectoryDescription with two mails" $ do
+          `shouldBe` Just  undefined
+        it "status on 'Personal' should return with two mails" $ do
           runStubTest (status "Personal" [])
-          `shouldBe` Just (DirectoryDescription 0 1 0)
+          `shouldBe` Just undefined
       describe "unseen item" $ do
-        it "status on 'INBOX' should return a DirectoryDescription with two mails" $ do
+        it "status on 'INBOX' should return with two mails" $ do
           runStubTest (status "." [Unseen])
-          `shouldBe` Just (DirectoryDescription 0 2 0)
-        it "status on 'Personal' should return a DirectoryDescription with two mails" $ do
+          `shouldBe` Just undefined
+        it "status on 'Personal' should return with two mails" $ do
           runStubTest (status "Personal" [Unseen])
-          `shouldBe` Just (DirectoryDescription 0 1 0)
+          `shouldBe` Just undefined
       describe "messages item" $ do
-        it "status on 'INBOX' should return a DirectoryDescription with two mails" $ do
+        it "status on 'INBOX' should return with two mails" $ do
           runStubTest (status "." [Messages])
-          `shouldBe` Just (DirectoryDescription 0 2 0)
-        it "status on 'Personal' should return a DirectoryDescription with two mails" $ do
+          `shouldBe` Just undefined
+        it "status on 'Personal' should return with two mails" $ do
           runStubTest (status "Personal" [Messages])
-          `shouldBe` Just (DirectoryDescription 0 1 0)
+          `shouldBe` Just undefined
       describe "recent item" $ do
-        it "status on 'INBOX' should return a DirectoryDescription with two mails" $ do
+        it "status on 'INBOX' should return with two mails" $ do
           runStubTest (status "." [Recent])
-          `shouldBe` Just (DirectoryDescription 0 2 0)
-        it "status on 'Personal' should return a DirectoryDescription with two mails" $ do
+          `shouldBe` Just undefined
+        it "status on 'Personal' should return with two mails" $ do
           runStubTest (status "Personal" [Recent])
-          `shouldBe` Just (DirectoryDescription 0 1 0)
+          `shouldBe` Just undefined
       describe "uidnext item" $ do
-        it "status on 'INBOX' should return a DirectoryDescription with two mails" $ do
+        it "status on 'INBOX' should return with two mails" $ do
           runStubTest (status "." [Uidnext])
-          `shouldBe` Just (DirectoryDescription 0 2 0)
-        it "status on 'Personal' should return a DirectoryDescription with two mails" $ do
+          `shouldBe` Just undefined
+        it "status on 'Personal' should return with two mails" $ do
           runStubTest (status "Personal" [Uidnext])
-          `shouldBe` Just (DirectoryDescription 0 1 0)
+          `shouldBe` Just undefined
       describe "uidvalidity item" $ do
-        it "status on 'INBOX' should return a DirectoryDescription with two mails" $ do
+        it "status on 'INBOX' should return with two mails" $ do
           runStubTest (status "." [Uidvalidity])
-          `shouldBe` Just (DirectoryDescription 0 2 0)
-        it "status on 'Personal' should return a DirectoryDescription with two mails" $ do
+          `shouldBe` Just undefined
+        it "status on 'Personal' should return with two mails" $ do
           runStubTest (status "Personal" [Uidvalidity])
-          `shouldBe` Just (DirectoryDescription 0 1 0)
+          `shouldBe` Just undefined
       describe "unseen and messages item" $ do
-        it "status on 'INBOX' should return a DirectoryDescription with two mails" $ do
+        it "status on 'INBOX' should return with two mails" $ do
           runStubTest (status "." [Unseen, Messages])
-          `shouldBe` Just (DirectoryDescription 0 1 0)
-        it "status on 'Personal' should return a DirectoryDescription with two mails" $ do
+          `shouldBe` Just undefined
+        it "status on 'Personal' should return with two mails" $ do
           runStubTest (status "Personal" [Unseen, Messages])
-          `shouldBe` Just (DirectoryDescription 0 1 0)
+          `shouldBe` Just undefined
       describe "all items" $ do
-        it "status on 'INBOX' should return a DirectoryDescription with no mail" $ do
+        it "status on 'INBOX' should return with no mail" $ do
           runStubTest (status "." [Unseen, Messages, Recent, Uidnext, Uidvalidity])
-          `shouldBe` Just (DirectoryDescription 0 0 0)
-        it "status on 'Personal' should return a DirectoryDescription with no mail" $ do
+          `shouldBe` Just undefined
+        it "status on 'Personal' should return with no mail" $ do
           runStubTest (status "Personal" [Unseen, Messages, Recent, Uidnext, Uidvalidity])
-          `shouldBe` Just (DirectoryDescription 0 0 0)
+          `shouldBe` Just undefined
