@@ -185,12 +185,6 @@ spec = do
           `shouldBe` DirectoryDescription 0 1 0
     describe "status" $ do
       describe "no required item" $ do
-        it "status on 'INBOX' should return with two mails" $ do
-          runStubTest (status "." [])
-          `shouldBe` Just  undefined
-        it "status on 'Personal' should return with two mails" $ do
-          runStubTest (status "Personal" [])
-          `shouldBe` Just undefined
       describe "unseen item" $ do
         it "status on 'INBOX' should return with two mails" $ do
           runStubTest (status "." [Unseen])
