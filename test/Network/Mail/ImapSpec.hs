@@ -187,50 +187,50 @@ spec = do
       describe "no required item" $ do
       describe "unseen item" $ do
         it "status on 'INBOX' should return with two mails" $ do
-          runStubTest (status "." [Unseen])
+          runStubTest (status "." SQUnseen)
           `shouldBe` Just undefined
         it "status on 'Personal' should return with two mails" $ do
-          runStubTest (status "Personal" [Unseen])
+          runStubTest (status "Personal" SQUnseen)
           `shouldBe` Just undefined
       describe "messages item" $ do
         it "status on 'INBOX' should return with two mails" $ do
-          runStubTest (status "." [Messages])
+          runStubTest (status "." SQMessages)
           `shouldBe` Just undefined
         it "status on 'Personal' should return with two mails" $ do
-          runStubTest (status "Personal" [Messages])
+          runStubTest (status "Personal" SQMessages)
           `shouldBe` Just undefined
       describe "recent item" $ do
         it "status on 'INBOX' should return with two mails" $ do
-          runStubTest (status "." [Recent])
+          runStubTest (status "." SQRecent)
           `shouldBe` Just undefined
         it "status on 'Personal' should return with two mails" $ do
-          runStubTest (status "Personal" [Recent])
+          runStubTest (status "Personal" SQRecent)
           `shouldBe` Just undefined
       describe "uidnext item" $ do
         it "status on 'INBOX' should return with two mails" $ do
-          runStubTest (status "." [Uidnext])
+          runStubTest (status "." SQUidnext)
           `shouldBe` Just undefined
         it "status on 'Personal' should return with two mails" $ do
-          runStubTest (status "Personal" [Uidnext])
+          runStubTest (status "Personal" SQUidnext)
           `shouldBe` Just undefined
       describe "uidvalidity item" $ do
         it "status on 'INBOX' should return with two mails" $ do
-          runStubTest (status "." [Uidvalidity])
+          runStubTest (status "." SQUidvalidity)
           `shouldBe` Just undefined
         it "status on 'Personal' should return with two mails" $ do
-          runStubTest (status "Personal" [Uidvalidity])
+          runStubTest (status "Personal" SQUidvalidity)
           `shouldBe` Just undefined
       describe "unseen and messages item" $ do
         it "status on 'INBOX' should return with two mails" $ do
-          runStubTest (status "." [Unseen, Messages])
+          runStubTest (status "." (SQProduct SQUnseen SQMessages)
           `shouldBe` Just undefined
         it "status on 'Personal' should return with two mails" $ do
-          runStubTest (status "Personal" [Unseen, Messages])
+          runStubTest (status "Personal" (SQProduct SQUnseen SQMessages))
           `shouldBe` Just undefined
       describe "all items" $ do
         it "status on 'INBOX' should return with no mail" $ do
-          runStubTest (status "." [Unseen, Messages, Recent, Uidnext, Uidvalidity])
+          runStubTest (status "." (SQProduct (SQProduct SQUnseen SQMessages) (SQProduct SQRecent (SQProduct SQUidnext SQUidvalidity))))
           `shouldBe` Just undefined
         it "status on 'Personal' should return with no mail" $ do
-          runStubTest (status "Personal" [Unseen, Messages, Recent, Uidnext, Uidvalidity])
+          runStubTest (status "Personal" (SQProduct (SQProduct SQUnseen SQMessages) (SQProduct SQRecent (SQProduct SQUidnext SQUidvalidity))))
           `shouldBe` Just undefined
