@@ -184,7 +184,6 @@ spec = do
           runStubTest (select "Personal" >> select "../Unknown" >> noop)
           `shouldBe` DirectoryDescription 0 1 0
     describe "status" $ do
-      describe "no required item" $ do
       describe "unseen item" $ do
         it "status on 'INBOX' should return with two mails" $ do
           runStubTest (status "." SQUnseen)
@@ -222,7 +221,7 @@ spec = do
           `shouldBe` Just undefined
       describe "unseen and messages item" $ do
         it "status on 'INBOX' should return with two mails" $ do
-          runStubTest (status "." (SQProduct SQUnseen SQMessages)
+          runStubTest (status "." (SQProduct SQUnseen SQMessages))
           `shouldBe` Just (2, 2)
         it "status on 'Personal' should return with two mails" $ do
           runStubTest (status "Personal" (SQProduct SQUnseen SQMessages))
