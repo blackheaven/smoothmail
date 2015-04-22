@@ -188,24 +188,24 @@ spec = do
       describe "unseen item" $ do
         it "status on 'INBOX' should return with two mails" $ do
           runStubTest (status "." SQUnseen)
-          `shouldBe` Just undefined
+          `shouldBe` Just 2
         it "status on 'Personal' should return with two mails" $ do
           runStubTest (status "Personal" SQUnseen)
-          `shouldBe` Just undefined
+          `shouldBe` Just 2
       describe "messages item" $ do
         it "status on 'INBOX' should return with two mails" $ do
           runStubTest (status "." SQMessages)
-          `shouldBe` Just undefined
+          `shouldBe` Just 2
         it "status on 'Personal' should return with two mails" $ do
           runStubTest (status "Personal" SQMessages)
-          `shouldBe` Just undefined
+          `shouldBe` Just 2
       describe "recent item" $ do
         it "status on 'INBOX' should return with two mails" $ do
           runStubTest (status "." SQRecent)
-          `shouldBe` Just undefined
+          `shouldBe` Just 2
         it "status on 'Personal' should return with two mails" $ do
           runStubTest (status "Personal" SQRecent)
-          `shouldBe` Just undefined
+          `shouldBe` Just 2
       describe "uidnext item" $ do
         it "status on 'INBOX' should return with two mails" $ do
           runStubTest (status "." SQUidnext)
@@ -223,10 +223,10 @@ spec = do
       describe "unseen and messages item" $ do
         it "status on 'INBOX' should return with two mails" $ do
           runStubTest (status "." (SQProduct SQUnseen SQMessages)
-          `shouldBe` Just undefined
+          `shouldBe` Just (2, 2)
         it "status on 'Personal' should return with two mails" $ do
           runStubTest (status "Personal" (SQProduct SQUnseen SQMessages))
-          `shouldBe` Just undefined
+          `shouldBe` Just (2, 2)
       describe "all items" $ do
         it "status on 'INBOX' should return with no mail" $ do
           runStubTest (status "." (SQProduct (SQProduct SQUnseen SQMessages) (SQProduct SQRecent (SQProduct SQUidnext SQUidvalidity))))
