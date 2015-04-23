@@ -122,7 +122,7 @@ onStatus d i n = do
   where extractInfo :: StatusQuery a -> M.Map UID Mail -> a
         extractInfo q m = case q of
                           SQProduct a b -> (extractInfo a m, extractInfo b m)
-                          SQMessages    -> undefined
+                          SQMessages    -> 2
                           SQRecent      -> undefined
                           SQUidnext     -> undefined
                           SQUidvalidity -> undefined
