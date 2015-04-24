@@ -123,7 +123,7 @@ onStatus d i n = do
         extractInfo q m = case q of
                           SQProduct a b -> (extractInfo a m, extractInfo b m)
                           SQMessages    -> 2
-                          SQRecent      -> undefined
+                          SQRecent      -> 2
                           SQUidnext     -> undefined
                           SQUidvalidity -> undefined
                           SQUnseen      -> undefined
