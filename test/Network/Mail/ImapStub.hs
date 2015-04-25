@@ -124,7 +124,7 @@ onStatus d i n = do
                           SQProduct a b -> (extractInfo a m, extractInfo b m)
                           SQMessages    -> 2
                           SQRecent      -> 2
-                          SQUidnext     -> undefined
+                          SQUidnext     -> UID 1
                           SQUidvalidity -> undefined
                           SQUnseen      -> undefined
 
