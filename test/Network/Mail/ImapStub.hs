@@ -125,7 +125,7 @@ onStatus d i n = do
                           SQMessages    -> 2
                           SQRecent      -> 2
                           SQUidnext     -> UID 1
-                          SQUidvalidity -> undefined
+                          SQUidvalidity -> UID 7
                           SQUnseen      -> undefined
 
 -- Helpers
