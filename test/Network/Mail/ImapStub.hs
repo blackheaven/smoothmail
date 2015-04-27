@@ -126,7 +126,7 @@ onStatus d i n = do
                           SQRecent      -> 2
                           SQUidnext     -> UID 1
                           SQUidvalidity -> UID 7
-                          SQUnseen      -> undefined
+                          SQUnseen      -> 2
 
 -- Helpers
 canonicalize :: String -> String
