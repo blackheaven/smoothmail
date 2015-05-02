@@ -218,7 +218,7 @@ spec = do
           `shouldBe` Just (UID 1)
         it "status on 'Personal' should return with two mails" $ do
           runStubTest (status "Personal" SQUidvalidity)
-          `shouldBe` Just undefined
+          `shouldBe` Just (UID 2)
       describe "unseen and messages item" $ do
         it "status on 'INBOX' should return with two mails" $ do
           runStubTest (status "." (SQProduct SQUnseen SQMessages))
