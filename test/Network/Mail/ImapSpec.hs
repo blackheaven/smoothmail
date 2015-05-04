@@ -232,4 +232,4 @@ spec = do
           `shouldBe` Just ((2, 2), (2, (UID 1, UID 2)))
         it "status on 'Personal' should return with no mail" $ do
           runStubTest (status "Personal" (SQProduct (SQProduct SQUnseen SQMessages) (SQProduct SQRecent (SQProduct SQUidnext SQUidvalidity))))
-          `shouldBe` Just undefined
+          `shouldBe` Just ((1, 1), (1, (UID 2, UID 3)))
