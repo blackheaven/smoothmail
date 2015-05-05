@@ -211,7 +211,7 @@ spec = do
           `shouldBe` Just (UID 4)
         it "status on 'Personal' should return with two mails" $ do
           runStubTest (status "Personal" SQUidnext)
-          `shouldBe` Just (UID 3)
+          `shouldBe` Just (UID 4)
       describe "uidvalidity item" $ do
         it "status on 'INBOX' should return with two mails" $ do
           runStubTest (status "." SQUidvalidity)
