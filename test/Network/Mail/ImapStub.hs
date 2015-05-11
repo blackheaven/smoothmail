@@ -125,7 +125,7 @@ onStatus d i n = do
                           SQMessages    -> 2
                           SQRecent      -> 2
                           SQUidnext     -> UID $ extractUID $ maximum $ map fst $ concatMap (M.toList . snd) $ M.toList mails
-                          SQUidvalidity -> UID 1
+                          SQUidvalidity -> UID $ extractUID $ maximum $ map fst $ M.toList m
                           SQUnseen      -> 2
 
 -- Helpers
