@@ -118,7 +118,8 @@ onNoop n = do
 onStatus :: DirectoryName -> (StatusQuery a) -> (Maybe a -> State String b) -> State String b
 onStatus d i n = do
   currentDirectory <- get
-  n $ fmap (extractInfo i) (M.lookup currentDirectory mails)
+  let targettedDirectory = canonicalize $ currentDirectory ++ "/" ++ d
+  n $ fmap (extractInfo i) (M.lookup targettedDirectory mails)
   where extractInfo :: StatusQuery a -> M.Map UID Mail -> a
         extractInfo q m = case q of
                           SQProduct a b -> (extractInfo a m, extractInfo b m)
