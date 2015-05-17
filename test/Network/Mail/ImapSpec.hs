@@ -225,7 +225,7 @@ spec = do
           `shouldBe` Just (2, 2)
         it "status on 'Personal' should return with two mails" $ do
           runStubTest (status "Personal" (SQProduct SQUnseen SQMessages))
-          `shouldBe` Just (2, 1)
+          `shouldBe` Just (1, 1)
       describe "all items" $ do
         it "status on 'INBOX' should return with no mail" $ do
           runStubTest (status "." (SQProduct (SQProduct SQUnseen SQMessages) (SQProduct SQRecent (SQProduct SQUidnext SQUidvalidity))))
