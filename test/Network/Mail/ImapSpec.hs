@@ -195,7 +195,7 @@ spec = do
         it "status on 'INBOX' should return with two mails" $ do
           runStubTest (status "." SQMessages)
           `shouldBe` Just 2
-        it "status on 'Personal' should return with two mails" $ do
+        it "status on 'Personal' should return with one mail" $ do
           runStubTest (status "Personal" SQMessages)
           `shouldBe` Just 1
       describe "recent item" $ do
