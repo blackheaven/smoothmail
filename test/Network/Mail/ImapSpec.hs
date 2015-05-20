@@ -202,7 +202,7 @@ spec = do
         it "status on 'INBOX' should return with two mails" $ do
           runStubTest (status "." SQRecent)
           `shouldBe` Just 2
-        it "status on 'Personal' should return with two mails" $ do
+        it "status on 'Personal' should return with one mail" $ do
           runStubTest (status "Personal" SQRecent)
           `shouldBe` Just 2
       describe "uidnext item" $ do
