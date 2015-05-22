@@ -206,7 +206,7 @@ spec = do
           runStubTest (status "Personal" SQRecent)
           `shouldBe` Just 1
       describe "uidnext item" $ do
-        it "status on 'INBOX' should return with two mails" $ do
+        it "status on 'INBOX' should return with the maximum UID + 1 (ie. 4)" $ do
           runStubTest (status "." SQUidnext)
           `shouldBe` Just (UID 4)
         it "status on 'Personal' should return with two mails" $ do
