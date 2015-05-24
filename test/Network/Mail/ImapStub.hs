@@ -127,7 +127,7 @@ onStatus d i n = do
                           SQRecent      -> 2
                           SQUidnext     -> UID $ (1+) . extractUID $ maximum $ map fst $ concatMap (M.toList . snd) $ M.toList mails
                           SQUidvalidity -> UID $ extractUID $ maximum $ map fst $ M.toList m
-                          SQUnseen      -> 2
+                          SQUnseen      -> exists $ makeDirectoryDescription m
 
 -- Helpers
 canonicalize :: String -> String
