@@ -123,7 +123,7 @@ onStatus d i n = do
   where extractInfo :: StatusQuery a -> M.Map UID Mail -> a
         extractInfo q m = case q of
                           SQProduct a b -> (extractInfo a m, extractInfo b m)
-                          SQMessages    -> 2
+                          SQMessages    -> exists $ makeDirectoryDescription m
                           SQRecent      -> 2
                           SQUidnext     -> UID $ (1+) . extractUID $ maximum $ map fst $ concatMap (M.toList . snd) $ M.toList mails
                           SQUidvalidity -> UID $ extractUID $ maximum $ map fst $ M.toList m
