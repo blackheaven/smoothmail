@@ -123,11 +123,11 @@ onStatus d i n = do
   where extractInfo :: StatusQuery a -> M.Map UID Mail -> a
         extractInfo q m = case q of
                           SQProduct a b -> (extractInfo a m, extractInfo b m)
-                          SQMessages    -> exists $ makeDirectoryDescription m
-                          SQRecent      -> exists $ makeDirectoryDescription m
+                          SQMessages    -> countMessages m
+                          SQRecent      -> countMessages m
                           SQUidnext     -> UID $ (1+) . extractUID $ maximum $ map fst $ concatMap (M.toList . snd) $ M.toList mails
                           SQUidvalidity -> UID $ extractUID $ maximum $ map fst $ M.toList m
-                          SQUnseen      -> exists $ makeDirectoryDescription m
+                          SQUnseen      -> countMessages m
 
 -- Helpers
 canonicalize :: String -> String
@@ -160,5 +160,7 @@ getSubdirectories :: String -> [String]
 getSubdirectories root = let rs = splitOn '/' root in map last $ filter (and . zipWith (==) rs) $ filter (\ds -> ((length rs) + 1) == (length ds))  $ map (splitOn '/') $ map fst $ M.toList mails
 
 makeDirectoryDescription :: M.Map k a -> DirectoryDescription
-makeDirectoryDescription d = DirectoryDescription 0 (toInteger $ M.size d) 0
+makeDirectoryDescription d = DirectoryDescription 0 (countMessages d) 0
 
+countMessages :: M.Map k a -> Integer
+countMessages = toInteger . M.size
