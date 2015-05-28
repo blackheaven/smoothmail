@@ -13,7 +13,9 @@ import Data.List (intercalate)
 import Data.Function (on)
 import qualified Data.Map as M
 
-mails :: M.Map String (M.Map UID Mail)
+type MailsDirectory = M.Map UID Mail
+
+mails :: M.Map String MailsDirectory
 mails = M.fromList  [ ("/", M.fromList [ -- aka root or INBOX
                                        (UID 1, Mail (Header (UID 1) "2015-01-01 10:10" "S1" "T1"))
                                       , (UID 2, Mail (Header (UID 2) "2015-02-03 21:12" "S2" "T2"))
@@ -120,7 +122,7 @@ onStatus d i n = do
   currentDirectory <- get
   let targettedDirectory = canonicalize $ currentDirectory ++ "/" ++ d
   n $ fmap (extractInfo i) (M.lookup targettedDirectory mails)
-  where extractInfo :: StatusQuery a -> M.Map UID Mail -> a
+  where extractInfo :: StatusQuery a -> MailsDirectory -> a
         extractInfo q m = case q of
                           SQProduct a b -> (extractInfo a m, extractInfo b m)
                           SQMessages    -> countMessages m
@@ -159,8 +161,8 @@ isExistingDirectory d = elem (canonicalize d) (M.keys mails)
 getSubdirectories :: String -> [String]
 getSubdirectories root = let rs = splitOn '/' root in map last $ filter (and . zipWith (==) rs) $ filter (\ds -> ((length rs) + 1) == (length ds))  $ map (splitOn '/') $ map fst $ M.toList mails
 
-makeDirectoryDescription :: M.Map k a -> DirectoryDescription
+makeDirectoryDescription :: MailsDirectory -> DirectoryDescription
 makeDirectoryDescription d = DirectoryDescription 0 (countMessages d) 0
 
-countMessages :: M.Map k a -> Integer
+countMessages :: MailsDirectory -> Integer
 countMessages = toInteger . M.size
